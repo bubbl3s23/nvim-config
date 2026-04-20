@@ -10,7 +10,7 @@ o.relativenumber = false
 o.wrap = false
 o.list = true
 o.signcolumn = "yes"
-o.pumheight = 15
+-- o.pumheight = 15
 -- o.laststatus = 0
 o.mouse = 'a'
 o.showmode = false
@@ -28,8 +28,9 @@ o.splitbelow = true
 o.scrolloff = 10
 o.cursorline = true
 o.confirm = true
-o.foldmethod = 'indent'
-o.foldlevelstart = 99
+
+-- o.foldmethod = 'indent'
+-- o.foldlevelstart = 99
 -- completion
 -- o.complete = ".,o"
 -- o.completeopt = { "menuone", "noselect", "popup" }
@@ -104,6 +105,7 @@ vim.pack.add({
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
     "https://github.com/Saghen/blink.cmp",
+    "https://github.com/nvim-treesitter/nvim-treesitter"
 })
 
 vim.cmd("colorscheme vague")
@@ -117,9 +119,9 @@ require("which-key").setup({
     delay = 0,
     icons = { mappings = true },
     spec = {
-        { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
+        { '<leader>s', group = '[S]earch',    mode = { 'n', 'v' } },
         { '<leader>t', group = '[T]oggle' },
-        { 'gr', group = 'LSP Actions', mode = { 'n' } },
+        { 'gr',        group = 'LSP Actions', mode = { 'n' } },
     },
 })
 require("oil").setup({
@@ -168,6 +170,36 @@ vim.lsp.enable({
     "emmet_language_server"
 })
 
+require('nvim-treesitter').install {
+    'javascript',
+    'typescript',
+    'tsx',
+    'sql',
+    'nix',
+    'dockerfile',
+    'c',
+    'bash',
+    'html',
+    'lua',
+    'markdown',
+    'python',
+    'xml'
+}
+
+-- TODO: Expand on this?
+-- :h
+autocmd('FileType', {
+    pattern = { 'javascript', 'typescript', 'tsx', 'lua' },
+    callback = function()
+        vim.treesitter.start()
+        -- Folds
+        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        vim.wo.foldmethod = 'expr'
+        -- Indentatation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+})
+
 autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
     callback = function(event)
@@ -213,12 +245,14 @@ autocmd("LspAttach", {
             vim.keymap.set("n", "<leader>th", function()
                     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr = event.buf })
                 end,
-            { buffer = event.buf })
+                { buffer = event.buf })
         end
     end,
 })
 
+-- TODO: Remove luasnip?
 require("luasnip.loaders.from_vscode").lazy_load()
+-- TODO: Expand (window, appearance)
 require("blink.cmp").setup({
     -- `:help ins-completion`
     keymap = {
