@@ -56,23 +56,13 @@ map('n', '<leader>o', ':source<CR>', { silent = true })
 map('n', '<leader>lf', vim.lsp.buf.format)
 
 -- toggle lsp loclist
-map('n', '<leader>qe', function()
+map('n', '<leader>q', function()
     local loclist_win = vim.fn.getloclist(0, { winid = 0 }).winid
     if loclist_win > 0 then
         vim.cmd("lclose")
     else
         vim.diagnostic.setloclist({ open = true })
     end
-end)
--- toggle quickfix
-map("n", "<leader>qf", function()
-    for _, win in ipairs(vim.fn.getwininfo()) do
-        if win.quickfix == 1 then
-            vim.cmd("cclose")
-            return
-        end
-    end
-    vim.cmd("copen")
 end)
 
 -- copy relative filepath to clipboard
@@ -102,10 +92,10 @@ vim.pack.add({
     "https://github.com/folke/which-key.nvim",
     "https://github.com/karb94/neoscroll.nvim",
     "https://github.com/nvim-mini/mini.pick",
+    "https://github.com/nvim-mini/mini.pairs",
     "https://github.com/stevearc/oil.nvim",
-    "https://github.com/sindrets/diffview.nvim",
     'https://github.com/lewis6991/gitsigns.nvim',
-    "https://github.com/pmizio/typescript-tools.nvim"
+    'https://github.com/neovim/nvim-lspconfig'
 })
 
 vim.cmd("colorscheme vague")
@@ -113,8 +103,12 @@ vim.cmd(":hi statusline guibg=NONE")
 
 require('neoscroll').setup({ duration = 100, easing = 'sine' })
 require("which-key").setup()
-require("oil").setup()
-require("diffview").setup()
+require("mini.pick").setup()
+require("oil").setup({
+    view_options = {
+        show_hidden = true,
+    }
+})
 require('gitsigns').setup({
     signs = {
         add = { text = '+' },
@@ -125,24 +119,30 @@ require('gitsigns').setup({
     }
 })
 
-local pick = require("mini.pick")
-pick.setup()
-
 map('n', '<leader>.', '<cmd>Oil<cr>')
 map('n', '<leader>s.', "<cmd>Pick files tool='git'<cr>")
 map('n', '<leader>sg', '<cmd>Pick grep_live<cr>')
-map("n", "<leader>d", ":DiffviewOpen ")
--- lsp
-vim.lsp.enable({ 'lua_ls' })
-vim.lsp.config['lua_ls'] = {
-    cmd = { 'lua-language-server' },
-    filetypes = { 'lua' },
-    root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
-    settings = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            }
-        }
-    }
-}
+
+local function setup_lsp()
+    vim.lsp.enable({
+        "lua_ls",
+        "gopls",
+        "pyright",
+        "tsgo"
+    })
+
+    autocmd("LspAttach", {
+        callback = function(ev)
+            local bufopts = { noremap = true, silent = true, buffer = ev.buf }
+            map("n", "grd", vim.lsp.buf.definition, bufopts)
+            map("i", "<C-k>", vim.lsp.completion.get, bufopts)
+            local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+            local methods = vim.lsp.protocol.Methods
+            if client:supports_method(methods.textDocument_completion) then
+                vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+            end
+        end,
+    })
+end
+
+setup_lsp()
