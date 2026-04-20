@@ -152,13 +152,13 @@ local function pick_cwd()
     fzf_picker.files({ cwd = current_dir })
 end
 -- Navigation keymaps
-map('n', '<leader>.', '<cmd>Oil<cr>', { Desc = "Open CWD" })
-map('n', '<leader>sf', fzf_picker.files, { Desc = "[S]earch [F]iles" })
-map('n', '<leader>s.', pick_cwd, { Desc = "[S]earch Working dir" })
-map('n', '<leader>s<leader>', fzf_picker.history, { Desc = "[S]earch Working dir" })
-map('n', '<leader>sb', fzf_picker.buffers, { Desc = "[S]earch [Buffers]" })
-map('n', '<leader>sg', fzf_picker.live_grep_native, { Desc = "[S]earch Grep Files" })
-map('n', '<leader>s/', fzf_picker.grep_curbuf, { Desc = "[S]earch Grep Current buffer" })
+map('n', '<leader>.', '<cmd>Oil<cr>', { desc = "Open CWD" })
+map('n', '<leader>sf', fzf_picker.files, { desc = "[S]earch [F]iles" })
+map('n', '<leader>s.', pick_cwd, { desc = "[S]earch Working dir" })
+map('n', '<leader>s<leader>', fzf_picker.history, { desc = "[S]earch Working dir" })
+map('n', '<leader>sb', fzf_picker.buffers, { desc = "[S]earch [Buffers]" })
+map('n', '<leader>sg', fzf_picker.live_grep_native, { desc = "[S]earch Grep Files" })
+map('n', '<leader>s/', fzf_picker.grep_curbuf, { desc = "[S]earch Grep Current buffer" })
 
 vim.lsp.enable({
     "lua_ls",
