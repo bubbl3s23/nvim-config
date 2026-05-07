@@ -90,7 +90,6 @@ autocmd("BufEnter", {
 })
 
 vim.pack.add({
-    "https://github.com/vague2k/vague.nvim",
     "https://github.com/folke/which-key.nvim",
     "https://github.com/karb94/neoscroll.nvim",
     "https://github.com/nvim-mini/mini.pairs",
@@ -108,7 +107,14 @@ vim.pack.add({
         src = "https://github.com/Saghen/blink.cmp",
         version = vim.version.range("1.*")
     },
-    "https://github.com/nvim-treesitter/nvim-treesitter"
+    "https://github.com/nvim-treesitter/nvim-treesitter",
+    -- Themes
+    "https://github.com/vague2k/vague.nvim",
+    'https://github.com/uhs-robert/oasis.nvim',
+    'https://github.com/mcauley-penney/techbase.nvim',
+    'https://github.com/ficcdaf/ashen.nvim',
+    'https://github.com/rebelot/kanagawa.nvim',
+    'https://github.com/olimorris/onedarkpro.nvim'
 })
 
 vim.cmd("colorscheme vague")
