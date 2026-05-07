@@ -104,7 +104,10 @@ vim.pack.add({
     'https://github.com/neovim/nvim-lspconfig',
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
-    "https://github.com/Saghen/blink.cmp",
+    {
+        src = "https://github.com/Saghen/blink.cmp",
+        version = vim.version.range("1.*")
+    },
     "https://github.com/nvim-treesitter/nvim-treesitter"
 })
 
@@ -154,9 +157,9 @@ local function pick_cwd()
     fzf_picker.files({ cwd = current_dir })
 end
 -- Navigation keymaps
-map('n', '<leader>.', '<cmd>Oil<cr>', { desc = "Open CWD" })
-map('n', '<leader>sf', fzf_picker.files, { desc = "[S]earch [F]iles" })
-map('n', '<leader>s.', pick_cwd, { desc = "[S]earch Working dir" })
+map('n', '<leader>s.', '<cmd>Oil<cr>', { desc = "[S]earch Working dir" })
+map('n', '<leader><leader>', fzf_picker.files, { desc = "[S]earch [F]iles" })
+map('n', '<leader>.', pick_cwd, { desc = "[S]earch Working dir" })
 map('n', '<leader>s<leader>', fzf_picker.history, { desc = "[S]earch Working dir" })
 map('n', '<leader>sb', fzf_picker.buffers, { desc = "[S]earch [Buffers]" })
 map('n', '<leader>sg', fzf_picker.live_grep_native, { desc = "[S]earch Grep Files" })
@@ -193,8 +196,8 @@ autocmd('FileType', {
     callback = function()
         vim.treesitter.start()
         -- Folds
-        vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        vim.wo.foldmethod = 'expr'
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
         -- Indentatation
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end,
