@@ -6,7 +6,7 @@ o.shiftwidth = 4
 o.tabstop = 4
 o.expandtab = true
 o.number = true
-o.relativenumber = false
+o.relativenumber = true
 o.wrap = false
 o.list = true
 o.signcolumn = "yes"
@@ -101,13 +101,16 @@ vim.pack.add({
     'https://github.com/folke/todo-comments.nvim',
 
     'https://github.com/neovim/nvim-lspconfig',
+    'https://github.com/pmizio/typescript-tools.nvim',
+    'https://github.com/nvim-lua/plenary.nvim',
+    "https://github.com/nvim-treesitter/nvim-treesitter",
+
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
     {
         src = "https://github.com/Saghen/blink.cmp",
         version = vim.version.range("1.*")
     },
-    "https://github.com/nvim-treesitter/nvim-treesitter",
     -- Themes
     "https://github.com/vague2k/vague.nvim",
     'https://github.com/uhs-robert/oasis.nvim',
@@ -175,8 +178,16 @@ vim.lsp.enable({
     "lua_ls",
     "gopls",
     "pyright",
-    "tsgo",
     "emmet_language_server"
+})
+
+require("typescript-tools").setup({
+  settings = {
+    jsx_close_tag = {
+        enable = true,
+        filetypes = { "javascriptreact", "typescriptreact" },
+    }
+  },
 })
 
 require('nvim-treesitter').install {
