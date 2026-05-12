@@ -90,23 +90,26 @@ autocmd("BufEnter", {
 })
 
 vim.pack.add({
-    "https://github.com/folke/which-key.nvim",
-    "https://github.com/karb94/neoscroll.nvim",
-    "https://github.com/nvim-mini/mini.pairs",
-    "https://github.com/stevearc/oil.nvim",
+    -- UI
     "https://github.com/ibhagwan/fzf-lua",
-    'https://github.com/lewis6991/gitsigns.nvim',
-    "https://github.com/nvim-tree/nvim-web-devicons",
+    "https://github.com/stevearc/oil.nvim",
+    "https://github.com/folke/which-key.nvim",
     'https://github.com/nvim-lualine/lualine.nvim',
-    'https://github.com/folke/todo-comments.nvim',
+    "https://github.com/nvim-tree/nvim-web-devicons",
 
+    "https://github.com/karb94/neoscroll.nvim",
+    'https://github.com/lewis6991/gitsigns.nvim',
+    -- Editor
+    "https://github.com/nvim-mini/mini.pairs",
+    'https://github.com/folke/todo-comments.nvim',
+    -- LSP
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/pmizio/typescript-tools.nvim',
     "https://github.com/nvim-treesitter/nvim-treesitter",
     -- Neovim dev
     'https://github.com/nvim-lua/plenary.nvim',
     'https://github.com/folke/lazydev.nvim',
-
+    -- Completion
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
     {
@@ -128,7 +131,6 @@ require('neoscroll').setup({ duration = 100, easing = 'sine' })
 require("todo-comments").setup()
 require("mini.pairs").setup()
 require("nvim-web-devicons").setup()
-require('lualine').setup({ theme = 'gruvbox' })
 require("which-key").setup({
     delay = 0,
     icons = { mappings = true },
@@ -151,6 +153,26 @@ require('gitsigns').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
     }
+})
+
+require('lualine').setup({
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'diff', 'diagnostics' },
+        lualine_c = { 'filename', 'lsp_status', 'searchcount' },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {}
+    },
+    extensions = { 'fzf' }
 })
 
 local fzf_picker = require("fzf-lua")
