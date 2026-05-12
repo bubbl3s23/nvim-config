@@ -102,8 +102,10 @@ vim.pack.add({
 
     'https://github.com/neovim/nvim-lspconfig',
     'https://github.com/pmizio/typescript-tools.nvim',
-    'https://github.com/nvim-lua/plenary.nvim',
     "https://github.com/nvim-treesitter/nvim-treesitter",
+    -- Neovim dev
+    'https://github.com/nvim-lua/plenary.nvim',
+    'https://github.com/folke/lazydev.nvim',
 
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
@@ -181,43 +183,15 @@ vim.lsp.enable({
     "emmet_language_server"
 })
 
+require('lazydev').setup()
+
 require("typescript-tools").setup({
-  settings = {
-    jsx_close_tag = {
-        enable = true,
-        filetypes = { "javascriptreact", "typescriptreact" },
-    }
-  },
-})
-
-require('nvim-treesitter').install {
-    'javascript',
-    'typescript',
-    'tsx',
-    'sql',
-    'nix',
-    'dockerfile',
-    'c',
-    'bash',
-    'html',
-    'lua',
-    'markdown',
-    'python',
-    'xml'
-}
-
--- TODO: Expand on this?
--- :h
-autocmd('FileType', {
-    pattern = { 'javascript', 'typescript', 'tsx', 'lua' },
-    callback = function()
-        vim.treesitter.start()
-        -- Folds
-        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-        -- vim.wo.foldmethod = 'expr'
-        -- Indentatation
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end,
+    settings = {
+        jsx_close_tag = {
+            enable = true,
+            filetypes = { "javascriptreact", "typescriptreact" },
+        }
+    },
 })
 
 autocmd("LspAttach", {
@@ -270,6 +244,36 @@ autocmd("LspAttach", {
     end,
 })
 
+require('nvim-treesitter').install {
+    'javascript',
+    'typescript',
+    'tsx',
+    'sql',
+    'nix',
+    'dockerfile',
+    'c',
+    'bash',
+    'html',
+    'lua',
+    'markdown',
+    'python',
+    'xml'
+}
+
+-- TODO: Expand on this?
+-- :h
+autocmd('FileType', {
+    pattern = { 'javascript', 'typescript', 'tsx', 'lua' },
+    callback = function()
+        vim.treesitter.start()
+        -- Folds
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
+        -- Indentatation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+})
+
 -- TODO: Remove luasnip?
 require("luasnip.loaders.from_vscode").lazy_load()
 -- TODO: Expand (window, appearance)
@@ -296,6 +300,13 @@ require("blink.cmp").setup({
     signature = { enabled = true },
     snippets = { preset = 'luasnip' },
     sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' }
-    },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', },
+        providers = {
+            lazydev = {
+                name = "LazyDev",
+                module = 'lazydev.integrations.blink',
+                score_offset = 100
+            },
+        },
+    }
 })
