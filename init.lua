@@ -28,6 +28,7 @@ o.splitbelow = true
 o.scrolloff = 10
 o.cursorline = true
 o.confirm = true
+o.shiftwidth = 2
 
 -- o.foldmethod = 'indent'
 -- o.foldlevelstart = 99
@@ -98,7 +99,7 @@ autocmd('TextYankPost', {
     desc = 'Highlight when yanking text',
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
     callback = function()
-        vim.hl.on_yank()
+        vim.hl.hl_op()
     end,
 })
 
@@ -142,10 +143,13 @@ vim.pack.add({
     'https://github.com/mcauley-penney/techbase.nvim',
     'https://github.com/ficcdaf/ashen.nvim',
     'https://github.com/rebelot/kanagawa.nvim',
-    'https://github.com/olimorris/onedarkpro.nvim'
+    'https://github.com/olimorris/onedarkpro.nvim',
+    "https://github.com/sainnhe/gruvbox-material",
+    "https://github.com/vimcolorschemes/olive-crt.nvim"
 })
 
-vim.cmd("colorscheme vague")
+-- vim.cmd("colorscheme vague")
+vim.cmd("colorscheme oasis-starlight")
 
 require('neoscroll').setup({ duration = 100, easing = 'sine' })
 require("todo-comments").setup()
@@ -179,7 +183,7 @@ require('lualine').setup({
     sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'diff', 'diagnostics' },
-        lualine_c = { 'filename', 'lsp_status', 'searchcount' },
+        lualine_c = { 'lsp_status', 'filename', 'searchcount' },
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
@@ -222,7 +226,8 @@ vim.lsp.enable({
     "lua_ls",
     "gopls",
     "pyright",
-    "emmet_language_server"
+    "nixd"
+    -- "emmet_language_server"
 })
 
 require('lazydev').setup()
