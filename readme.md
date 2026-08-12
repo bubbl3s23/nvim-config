@@ -16,3 +16,5 @@ Written in an evening with enough features for a comfortable dev experience, mig
 ### Improve blink.cmp configuration
 ### treesitter ?
 ### colorscheme picker
+### Fix Unknown filetype 'javascript.jsx'
+

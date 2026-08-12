@@ -1,4 +1,3 @@
-local vim = vim --lsp warnings
 local o = vim.opt
 -- :help option-list
 -- :help vim.opt
@@ -148,8 +147,12 @@ vim.pack.add({
     "https://github.com/vimcolorschemes/olive-crt.nvim"
 })
 
--- vim.cmd("colorscheme vague")
-vim.cmd("colorscheme oasis-starlight")
+-- o.background = 'dark'
+-- o.background = 'light'
+--vim.cmd("colorscheme vague")
+vim.cmd("colorscheme kanagawa-dragon")
+-- vim.cmd("colorscheme oasis-luna")
+--vim.cmd("colorscheme techbase")
 
 require('neoscroll').setup({ duration = 100, easing = 'sine' })
 require("todo-comments").setup()
@@ -232,15 +235,18 @@ vim.lsp.enable({
 
 require('lazydev').setup()
 
+-- TODO: This creates checkhealth warning
+-- Send pr typescript-tools?
 require("typescript-tools").setup({
     settings = {
         jsx_close_tag = {
             enable = true,
-            filetypes = { "javascriptreact", "typescriptreact" },
+            -- filetypes = { "javascriptreact", "typescriptreact" },
         }
     },
 })
 
+-- LSP keymaps
 autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
     callback = function(event)
@@ -291,7 +297,7 @@ autocmd("LspAttach", {
     end,
 })
 
-require('nvim-treesitter').install {
+local ts_langs = {
     'javascript',
     'typescript',
     'tsx',
@@ -307,10 +313,12 @@ require('nvim-treesitter').install {
     'xml'
 }
 
+require('nvim-treesitter').install(ts_langs)
+
 -- TODO: Expand on this?
 -- :h
 autocmd('FileType', {
-    pattern = { 'javascript', 'typescript', 'tsx', 'lua' },
+    pattern = ts_langs,
     callback = function()
         vim.treesitter.start()
         -- Folds
