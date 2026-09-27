@@ -41,6 +41,23 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 vim.schedule(function() o.clipboard = 'unnamedplus' end)
+-- Copy paste throuh ssh
+if vim.env.SSH_CONNECTION then
+  local ok, osc52 = pcall(require, "vim.ui.clipboard.osc52")
+  if ok then
+    vim.g.clipboard = {
+      name = "osc52",
+      copy = {
+        ["+"] = osc52.copy("+"),
+        ["*"] = osc52.copy("*"),
+      },
+      paste = {
+        ["+"] = osc52.paste("+"),
+        ["*"] = osc52.paste("*"),
+      },
+    }
+  end
+end
 
 local map = vim.keymap.set
 map('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlights on search' })
@@ -147,12 +164,12 @@ vim.pack.add({
     "https://github.com/vimcolorschemes/olive-crt.nvim"
 })
 
--- o.background = 'dark'
+o.background = 'dark'
 -- o.background = 'light'
 --vim.cmd("colorscheme vague")
-vim.cmd("colorscheme kanagawa-dragon")
+-- vim.cmd("colorscheme kanagawa-dragon")
 -- vim.cmd("colorscheme oasis-luna")
---vim.cmd("colorscheme techbase")
+vim.cmd("colorscheme gruvbox-material")
 
 require('neoscroll').setup({ duration = 100, easing = 'sine' })
 require("todo-comments").setup()
@@ -301,6 +318,7 @@ local ts_langs = {
     'javascript',
     'typescript',
     'tsx',
+    'python',
     'sql',
     'nix',
     'dockerfile',
@@ -309,7 +327,6 @@ local ts_langs = {
     'html',
     'lua',
     'markdown',
-    'python',
     'xml'
 }
 
