@@ -128,6 +128,13 @@ autocmd("BufEnter", {
   end,
 })
 
+autocmd("FileType", {
+  pattern = "*.txt",
+  callback = function()
+    o.wrap = true
+  end,
+})
+
 vim.pack.add({
   -- UI
   "https://github.com/ibhagwan/fzf-lua",
@@ -170,10 +177,10 @@ vim.pack.add({
 
 o.background = "dark"
 -- o.background = 'light'
---vim.cmd("colorscheme vague")
+vim.cmd("colorscheme vague")
 -- vim.cmd("colorscheme kanagawa-dragon")
 -- vim.cmd("colorscheme oasis-luna")
-vim.cmd("colorscheme gruvbox-material")
+-- vim.cmd("colorscheme gruvbox-material")
 
 require("neoscroll").setup({ duration = 100, easing = "sine" })
 require("todo-comments").setup()
@@ -191,7 +198,7 @@ require("which-key").setup({
   },
 })
 
--- NOTE: stylua defaults to tabs, fixed outisde neovim in global stylua config file
+-- NOTE: stylua defaults to tabs, provisionally fixed outside neovim in global stylua config file
 -- ~/.config/stylua/stylua.toml
 -- Set preference here later?
 require("conform").setup({
@@ -199,6 +206,7 @@ require("conform").setup({
     lua = { "stylua" },
     python = { "isort", "black" },
     javascript = { "prettier" },
+    typescript = { "prettier" },
     ["*"] = { "codespell" },
     ["_"] = { "trim_whitespace" },
   },
