@@ -1,47 +1,46 @@
-local o = vim.opt
 -- :help option-list
 -- :help vim.opt
-o.shiftwidth = 4
-o.tabstop = 4
-o.expandtab = true
-o.number = true
-o.relativenumber = true
-o.wrap = false
-o.list = true
-o.signcolumn = "yes"
--- o.pumheight = 15
--- o.laststatus = 0
-o.mouse = "a"
-o.showmode = false
-o.winborder = "rounded"
-o.termguicolors = true
-o.updatetime = 250
-o.timeoutlen = 300
-o.swapfile = false
-o.undofile = true
-o.ignorecase = true
-o.smartcase = true
--- o.wildmode = { "lastused", "full" }
-o.splitright = true
-o.splitbelow = true
-o.scrolloff = 10
-o.cursorline = true
-o.confirm = true
-o.shiftwidth = 2
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.wrap = false
+vim.opt.list = true
+vim.opt.signcolumn = "yes"
+-- vim.opt.pumheight = 15
+-- vim.opt.laststatus = 0
+vim.opt.mouse = "a"
+vim.opt.showmode = false
+vim.opt.winborder = "rounded"
+vim.opt.termguicolors = true
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.swapfile = false
+vim.opt.undofile = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+-- vim.opt.wildmode = { "lastused", "full" }
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.scrolloff = 10
+vim.opt.cursorline = true
+vim.opt.confirm = true
+vim.opt.shiftwidth = 2
 
--- o.foldmethod = 'indent'
--- o.foldlevelstart = 99
+-- vim.opt.foldmethod = 'indent'
+-- vim.opt.foldlevelstart = 99
 -- completion
--- o.complete = ".,o"
--- o.completeopt = { "menuone", "noselect", "popup" }
--- o.autocomplete = true
+-- vim.opt.complete = ".,o"
+-- vim.opt.completeopt = { "menuone", "noselect", "popup" }
+-- vim.opt.autocomplete = true
 
 local g = vim.g
 g.mapleader = " "
 g.maplocalleader = " "
 
 vim.schedule(function()
-  o.clipboard = "unnamedplus"
+  vim.opt.clipboard = "unnamedplus"
 end)
 -- Copy paste through
 if vim.env.SSH_CONNECTION then
@@ -124,14 +123,14 @@ autocmd("TextYankPost", {
 autocmd("BufEnter", {
   desc = "Disable newline comment continuation",
   callback = function()
-    o.formatoptions = vim.opt.formatoptions:remove({ "c", "r", "o" })
+    vim.opt.formatoptions = vim.opt.formatoptions:remove({ "c", "r", "o" })
   end,
 })
 
 autocmd("FileType", {
   pattern = "*.txt",
   callback = function()
-    o.wrap = true
+    vim.opt.wrap = true
   end,
 })
 
@@ -175,8 +174,8 @@ vim.pack.add({
   "https://github.com/vimcolorschemes/olive-crt.nvim",
 })
 
-o.background = "dark"
--- o.background = 'light'
+vim.opt.background = "dark"
+-- vim.opt.background = 'light'
 vim.cmd("colorscheme vague")
 -- vim.cmd("colorscheme kanagawa-dragon")
 -- vim.cmd("colorscheme oasis-luna")
