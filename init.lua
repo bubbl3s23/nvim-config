@@ -120,12 +120,12 @@ autocmd("TextYankPost", {
   end,
 })
 
-autocmd("BufEnter", {
-  desc = "Disable newline comment continuation",
-  callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions:remove({ "c", "r", "o" })
-  end,
-})
+-- autocmd("BufEnter", {
+--   desc = "Disable newline comment continuation",
+--   callback = function()
+--     vim.opt.formatoptions = vim.opt.formatoptions:remove({ "c", "r", "o" })
+--   end,
+-- })
 
 autocmd("FileType", {
   pattern = "*.txt",
@@ -284,6 +284,7 @@ map("n", "<leader>s<leader>", fzf_picker.history, { desc = "[S]earch Working dir
 map("n", "<leader>sb", fzf_picker.buffers, { desc = "[S]earch [Buffers]" })
 map("n", "<leader>sg", fzf_picker.live_grep_native, { desc = "[S]earch Grep Files" })
 map("n", "<leader>s/", fzf_picker.grep_curbuf, { desc = "[S]earch Grep Current buffer" })
+map("n", "<leader>sc", fzf_picker.colorschemes, { desc = "[S]earch Colorschemes" })
 
 vim.lsp.enable({
   "lua_ls",
