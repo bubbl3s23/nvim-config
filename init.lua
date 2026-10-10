@@ -149,7 +149,6 @@ vim.pack.add({
   "https://github.com/folke/todo-comments.nvim",
   -- LSP
   "https://github.com/neovim/nvim-lspconfig",
-  "https://github.com/pmizio/typescript-tools.nvim",
   "https://github.com/nvim-treesitter/nvim-treesitter",
   -- autoformat
   "https://github.com/stevearc/conform.nvim",
@@ -175,9 +174,9 @@ vim.pack.add({
 })
 
 vim.opt.background = "dark"
--- vim.opt.background = 'light'
-vim.cmd("colorscheme vague")
--- vim.cmd("colorscheme kanagawa-dragon")
+-- vim.opt.background = "light"
+-- vim.cmd("colorscheme vague")
+vim.cmd("colorscheme kanagawa-dragon")
 -- vim.cmd("colorscheme oasis-luna")
 -- vim.cmd("colorscheme gruvbox-material")
 
@@ -276,6 +275,7 @@ local function pick_cwd()
   end
   fzf_picker.files({ cwd = current_dir })
 end
+
 -- Navigation keymaps
 map("n", "<leader>s.", "<cmd>Oil<cr>", { desc = "[S]earch Working dir" })
 map("n", "<leader><leader>", fzf_picker.files, { desc = "[S]earch [F]iles" })
@@ -287,25 +287,13 @@ map("n", "<leader>s/", fzf_picker.grep_curbuf, { desc = "[S]earch Grep Current b
 map("n", "<leader>sc", fzf_picker.colorschemes, { desc = "[S]earch Colorschemes" })
 
 vim.lsp.enable({
+  "tsc",
   "lua_ls",
   "gopls",
   "pyright",
   "nixd",
   "sqls",
   -- "emmet_language_server"
-})
-
-require("lazydev").setup()
-
--- TODO: This creates checkhealth warning
--- Send pr typescript-tools?
-require("typescript-tools").setup({
-  settings = {
-    jsx_close_tag = {
-      enable = true,
-      -- filetypes = { "javascriptreact", "typescriptreact" },
-    },
-  },
 })
 
 -- LSP keymaps
@@ -372,12 +360,11 @@ local ts_langs = {
   "lua",
   "markdown",
   "xml",
+  "go",
 }
 
 require("nvim-treesitter").install(ts_langs)
 
--- TODO: Expand on this?
--- :h
 autocmd("FileType", {
   pattern = ts_langs,
   callback = function()
@@ -390,9 +377,9 @@ autocmd("FileType", {
   end,
 })
 
--- TODO: Remove luasnip?
 require("luasnip.loaders.from_vscode").lazy_load()
--- TODO: Expand (window, appearance)
+
+require("lazydev").setup()
 require("blink.cmp").setup({
   -- `:help ins-completion`
   keymap = {
